@@ -9,7 +9,7 @@ const usersSchema = new mongoose.Schema({
   },
 });
 
-usersSchema.virtual("usersId").get(function () {
+usersSchema.virtual("userId").get(function () {
   return this._id.toHexString();
 });
 

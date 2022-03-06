@@ -29,8 +29,9 @@ app.post('/users/auth', async (req, res) => {
     }
 
     nickName = user.nickName
+    const userId = user.userId
 
-    const token = jwt.sign({ snsId, nickName }, 'work-out-at-home-secret-key')
+    const token = jwt.sign({ userId }, 'work-out-at-home-secret-key')
     res.json({ token, nickName })
 })
 
