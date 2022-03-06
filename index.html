@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="https://unpkg.com/mvp.css" />
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+		<title>소셜 로그인 MVP</title>
+		<script>
+			Kakao.init('fecb7b82b7ca64b9a9fa789fd4b0737c')
+			console.log(Kakao.isInitialized())
+
+			//카카오 로그인
+			function kakaoLogin() {
+				Kakao.Auth.login({
+					success: (response) => {
+						Kakao.API.request({
+							url: '/v2/user/me',
+							success: (response) => {
+								$.ajax({
+									type: 'POST',
+									url: '/users/auth',
+									data: {
+										snsId: response.id,
+										nickName: response.properties.nickname,
+									},
+									success: (response) => {
+										console.log(response)
+									},
+								})
+							},
+							fail: function (error) {
+								console.log(error)
+							},
+						})
+					},
+					fail: (error) => {
+						console.log(error)
+					},
+				})
+			}
+
+			//카카오 로그아웃
+			function kakaoLogout() {
+				if (Kakao.Auth.getAccessToken()) {
+					Kakao.API.request({
+						url: '/v1/user/unlink',
+						success: function (response) {
+							console.log(response)
+						},
+						fail: function (error) {
+							console.log(error)
+						},
+					})
+					Kakao.Auth.logout()
+				}
+			}
+		</script>
+	</head>
+	<body>
+        <h1>소셜 로그인 MVP</h1>
+		<button onclick="kakaoLogin()">카카오로 로그인하기</button>
+		<button onclick="kakaoLogout()">로그아웃</button>
+	</body>
+</html>
