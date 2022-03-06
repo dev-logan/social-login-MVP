@@ -44,23 +44,25 @@
 
 			//카카오 로그아웃
 			function kakaoLogout() {
-				if (Kakao.Auth.getAccessToken()) {
-					Kakao.API.request({
-						url: '/v1/user/unlink',
-						success: function (response) {
-							console.log(response)
-						},
-						fail: function (error) {
-							console.log(error)
-						},
-					})
-					Kakao.Auth.logout()
+				if (!Kakao.Auth.getAccessToken()) {
+					console.log('로그인되어 있지 않습니다.')
+					return
 				}
+				Kakao.API.request({
+					url: '/v1/user/unlink',
+					success: function (response) {
+						console.log(response)
+					},
+					fail: function (error) {
+						console.log(error)
+					},
+				})
+				Kakao.Auth.logout()
 			}
 		</script>
 	</head>
 	<body>
-        <h1>소셜 로그인 MVP</h1>
+		<h1>소셜 로그인 MVP</h1>
 		<button onclick="kakaoLogin()">카카오로 로그인하기</button>
 		<button onclick="kakaoLogout()">로그아웃</button>
 	</body>
