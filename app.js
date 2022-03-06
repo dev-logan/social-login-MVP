@@ -28,8 +28,10 @@ app.post('/users/auth', async (req, res) => {
         user = newUser
     }
 
+    nickName = user.nickName
+
     const token = jwt.sign({ snsId, nickName }, 'work-out-at-home-secret-key')
-    res.json({ token })
+    res.json({ token, nickName })
 })
 
 app.listen(port, () => {
