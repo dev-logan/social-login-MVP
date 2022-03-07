@@ -27,7 +27,11 @@
 										nickName: response.properties.nickname,
 									},
 									success: (response) => {
+										// jwt 토큰을 받음
 										console.log(response)
+										localStorage.setItem('token', response.token)
+										// 로그인 후 이동할 페이지
+										window.location.href='/'
 									},
 								})
 							},
