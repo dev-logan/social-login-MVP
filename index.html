@@ -12,7 +12,7 @@
 			Kakao.init('fecb7b82b7ca64b9a9fa789fd4b0737c')
 			console.log(Kakao.isInitialized())
 
-			//카카오 로그인
+			// 카카오 로그인
 			function kakaoLogin() {
 				Kakao.Auth.login({
 					success: (response) => {
@@ -46,22 +46,25 @@
 				})
 			}
 
-			//카카오 로그아웃
+			// 카카오 로그아웃
 			function kakaoLogout() {
 				if (!Kakao.Auth.getAccessToken()) {
 					console.log('로그인되어 있지 않습니다.')
 					return
 				}
-				Kakao.API.request({
-					url: '/v1/user/unlink',
-					success: function (response) {
-						console.log(response)
-					},
-					fail: function (error) {
-						console.log(error)
-					},
-				})
+				// // 카카오와의 연결을 끊음 - 로그인 시 다시 동의 확인을 해야함 - 회원 탈퇴시 더 어울리는 기능
+				// Kakao.API.request({
+				// 	url: '/v1/user/unlink',
+				// 	success: function (response) {
+				// 		console.log(response)
+				// 	},
+				// 	fail: function (error) {
+				// 		console.log(error)
+				// 	},
+				// })
 				Kakao.Auth.logout()
+				// jwt 토큰도 없애줌
+				localStorage.clear()
 			}
 		</script>
 	</head>
